@@ -8,14 +8,14 @@ LUM_CALIBRATE = len(LUM_CHARMAP)
 def luminance(pixel):
     return (min(pixel)/255 + max(pixel)/255) / 2
 
-def calc_luminance_deviation(pixels):
+def calc_luminance_mean(pixels):
     rev_lums = list(map(lambda x: 1 - luminance(x), pixels))
 
     return sum(rev_lums) / (len(rev_lums)+1)
 
 def pixels2char(pixels):
-    luminance_balance = calc_luminance_deviation(pixels)
-    side = int(LUM_CALIBRATE * luminance_balance)
+    luminance_mean = calc_luminance_mean(pixels)
+    side = int(LUM_CALIBRATE * luminance_mean)
 
     return LUM_CHARMAP[side]
 
