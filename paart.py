@@ -1,5 +1,3 @@
-from functools import reduce
-
 from PIL import Image
 
 SIDE_CHARMAP = " `.-+x!|$*&%@#"
