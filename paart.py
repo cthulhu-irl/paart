@@ -1,7 +1,7 @@
 from PIL import Image
 
-SIDE_CHARMAP = " `.-+x!|$*&%@#"
-SIDE_CALIBRATE = len(SIDE_CHARMAP)
+LUM_CHARMAP = " `.-+x!|$*&%@#"
+LUM_CALIBRATE = len(LUM_CHARMAP)
 
 def luminance(pixel):
     return (min(pixel)/255 + max(pixel)/255) / 2
@@ -14,9 +14,9 @@ def calc_luminance_deviation(pixels):
 
 def pixels2char(pixels):
     luminance_balance = calc_luminance_deviation(pixels)
-    side = int(SIDE_CALIBRATE * luminance_balance)
+    side = int(LUM_CALIBRATE * luminance_balance)
 
-    return SIDE_CHARMAP[side]
+    return LUM_CHARMAP[side]
 
 def sqrange(x1, y1, x2, y2):
     for y in range(y1, y2):
