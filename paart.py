@@ -7,10 +7,9 @@ def luminance(pixel):
     return (min(pixel)/255 + max(pixel)/255) / 2
 
 def calc_luminance_deviation(pixels):
-    rev_lums = map(lambda x: 1 - luminance(x), pixels)
-    weighted = [x for i, x in enumerate(rev_lums)]
+    rev_lums = list(map(lambda x: 1 - luminance(x), pixels))
 
-    return sum(weighted) / (len(weighted)+1)
+    return sum(rev_lums) / (len(rev_lums)+1)
 
 def pixels2char(pixels):
     luminance_balance = calc_luminance_deviation(pixels)
