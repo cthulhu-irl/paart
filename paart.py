@@ -9,7 +9,7 @@ def luminance(pixel):
     return (min(pixel)/255 + max(pixel)/255) / 2
 
 def calc_luminance_mean(pixels):
-    rev_lums = list(map(lambda x: 1 - luminance(x), pixels))
+    rev_lums = [1 - luminance(pixel) for pixel in pixels]
 
     return sum(rev_lums) / (len(rev_lums)+1)
 
