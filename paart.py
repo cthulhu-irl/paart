@@ -5,13 +5,16 @@ from PIL import Image
 LUM_CHARMAP = " `.-+x!|$*&%@#"
 LUM_CALIBRATE = len(LUM_CHARMAP)
 
+
 def luminance(pixel):
     return (min(pixel)/255 + max(pixel)/255) / 2
+
 
 def calc_luminance_mean(pixels):
     rev_lums = [1 - luminance(pixel) for pixel in pixels]
 
     return sum(rev_lums) / (len(rev_lums)+1)
+
 
 def pixels2char(pixels):
     luminance_mean = calc_luminance_mean(pixels)
@@ -19,17 +22,19 @@ def pixels2char(pixels):
 
     return LUM_CHARMAP[side]
 
+
 def sqrange(x1, y1, x2, y2):
     for y in range(y1, y2):
         for x in range(x1, x2):
             yield (x, y)
+
 
 def pixels2string(pixels, w, h, cwidth=12):
     if not pixels:
         yield ''
         return
 
-    if cwidth > w: cwidth = w
+    cwidth = w if cwidth > w else cwidth
 
     ret = ""
     for sy in range(0, h-cwidth, cwidth):
@@ -43,6 +48,7 @@ def pixels2string(pixels, w, h, cwidth=12):
         yield '\n'
 
     return ret
+
 
 if __name__ == "__main__":
     import sys
