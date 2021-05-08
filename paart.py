@@ -26,7 +26,7 @@ def calc_luminance_mean(pixels):
 
     nums = [(n * n) * contrast for n in lums]
 
-    return sum(nums) / len(nums)
+    return sum(nums) / (len(nums)+1)
 
 
 def pixels2char_luminance(pixels):
