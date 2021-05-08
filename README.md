@@ -17,11 +17,11 @@ Execute:
 ```
 $ ./paart.py
 Usage:
-	./paart.py <input> [cwidth]
+	./paart.py <input> [column_count]
 ```
 
 Example Usages:
 ```
 $ ./paart.py ~/Pictures/vertical-photo.jpg
-$ ./paart.py ~/Pictures/wallpapaer-morpheus-cat.jpg 16
+$ ./paart.py ~/Pictures/wallpapaer-morpheus-cat.jpg 50
 ```
