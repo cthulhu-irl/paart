@@ -2,7 +2,7 @@
 
 from PIL import Image, ImageFilter
 
-CHARMAP = " `'.,_-~+x:^%"
+CHARMAP = "  .'-~+x:^%"
 CHARMAP_LEN = len(CHARMAP)
 
 
@@ -48,7 +48,6 @@ def pixels2string(pixels, w, h, cwidth=12, cheight=12):
     cwidth = w if cwidth > w else cwidth
     cheight = h if cheight > h else cheight
 
-    ret = ""
     for sy in range(0, h-cheight, cheight):
 
         for sx in range(0, w-cwidth, cwidth):
@@ -61,7 +60,27 @@ def pixels2string(pixels, w, h, cwidth=12, cheight=12):
 
         yield '\n'
 
-    return ret
+
+def negative_normalization(chars):
+    half_len = CHARMAP_LEN // 2
+
+    # NOTE rev_index_map is supposed to have index+1 numbers, so theres is no 0
+    rev_index_map = {
+        char: CHARMAP_LEN - idx for idx, char in enumerate(CHARMAP)
+    }
+    balance_map = {char: half_len - idx for idx, char in enumerate(CHARMAP)}
+
+    distribution_mean = sum(balance_map.get(char, 0) for char in chars)
+
+    # if it's already more dark than bright, then do nothing
+    if distribution_mean > 0:
+        return chars
+
+    rev_idxs = (rev_index_map.get(char, 0) for char in chars)
+
+    return ''.join(
+        CHARMAP[idx-1] if idx else char for idx, char in zip(rev_idxs, chars)
+    )
 
 
 if __name__ == "__main__":
@@ -74,12 +93,16 @@ if __name__ == "__main__":
     img = Image.open(sys.argv[1])
     w, h = img.size
 
+    ratio = w / h
+    font_ratio = 3 / 12
+
     count = int(sys.argv[2]) if len(sys.argv) == 3 else 80
 
     cwidth = w // count
-    cheight = int((cwidth / w) * h)
+    cheight = int(h / (count / ratio) * (2 - font_ratio))
 
-    cwidth, cheight = cheight, cwidth
-
+    out = ''
     for ch in pixels2string(img.load(), w, h, cwidth, cheight):
-        sys.stdout.write(ch)
+        out += ch
+
+    print(negative_normalization(out))
