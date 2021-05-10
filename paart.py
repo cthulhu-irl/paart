@@ -61,7 +61,7 @@ def pixels2string(pixels, w, h, cwidth=12, cheight=12):
         yield '\n'
 
 
-def negative_normalization(chars):
+def brightness_theme_normalization(chars):
     # NOTE rev_index_map is supposed to have index+1 numbers, so theres is no 0
     index_map = {char: idx for idx, char in enumerate(CHARMAP)}
     rev_index_map = {
@@ -104,4 +104,4 @@ if __name__ == "__main__":
     for ch in pixels2string(img.load(), w, h, cwidth, cheight):
         out += ch
 
-    print(negative_normalization(out))
+    print(brightness_theme_normalization(out))
