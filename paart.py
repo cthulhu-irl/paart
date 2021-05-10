@@ -62,18 +62,17 @@ def pixels2string(pixels, w, h, cwidth=12, cheight=12):
 
 
 def negative_normalization(chars):
-    half_len = CHARMAP_LEN // 2
-
     # NOTE rev_index_map is supposed to have index+1 numbers, so theres is no 0
+    index_map = {char: idx for idx, char in enumerate(CHARMAP)}
     rev_index_map = {
         char: CHARMAP_LEN - idx for idx, char in enumerate(CHARMAP)
     }
-    balance_map = {char: half_len - idx for idx, char in enumerate(CHARMAP)}
 
-    distribution_mean = sum(balance_map.get(char, 0) for char in chars)
+    lum_mean = sum(index_map[ch] for ch in chars if ch != '\n') / len(chars)
+    lum_mean = lum_mean / (CHARMAP_LEN - 1)
 
-    # if it's already more dark than bright, then do nothing
-    if distribution_mean > 0:
+    # if it's rather bright than dark, then do nothing
+    if lum_mean < 0.5:
         return chars
 
     rev_idxs = (rev_index_map.get(char, 0) for char in chars)
